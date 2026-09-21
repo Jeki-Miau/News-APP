@@ -1,0 +1,53 @@
+name: news_app
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.12.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.8
+  get: ^4.7.2                    # State management & routing (GetX)
+  http: ^1.4.0                   # HTTP client untuk memanggil REST API
+  url_launcher: ^6.3.1           # Buka artikel di browser eksternal
+  share_plus: ^11.0.0            # Berbagi artikel ke aplikasi lain
+  cached_network_image: ^3.4.1   # Cache gambar dari network
+  timeago: ^3.7.1                # Format waktu "x menit lalu"
+  flutter_dotenv: ^5.2.1         # Membaca API key dari file .env
+
+  # UI & Theming
+  google_fonts: ^6.2.1           # Playfair Display + Inter typography
+  flutter_animate: ^4.5.0        # Smooth animations (fade, slide, stagger)
+  shimmer: ^3.0.0                # Better shimmer loading effect
+
+  # Features
+  shared_preferences: ^2.3.2     # Persist bookmarks + settings
+  connectivity_plus: ^6.0.5      # Detect internet connectivity
+
+  # UX
+  flutter_staggered_animations: ^1.1.1  # Staggered list animations
+  smooth_page_indicator: ^1.2.0         # Dots indicator for banner carousel
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/
