@@ -46,7 +46,7 @@ class AppTheme {
       ),
       navigationBarTheme: NavigationBarThemeData(
         backgroundColor: AppColors.cardLight,
-        indicatorColor: AppColors.accent.withOpacity(0.15),
+        indicatorColor: AppColors.accent.withValues(alpha: 0.15),
         elevation: 8,
         labelTextStyle: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
@@ -70,7 +70,7 @@ class AppTheme {
       ),
       chipTheme: ChipThemeData(
         backgroundColor: AppColors.backgroundLight,
-        selectedColor: AppColors.accent.withOpacity(0.15),
+        selectedColor: AppColors.accent.withValues(alpha: 0.15),
         labelStyle: GoogleFonts.inter(fontSize: 14),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
@@ -193,7 +193,7 @@ class AppTheme {
       ),
       navigationBarTheme: NavigationBarThemeData(
         backgroundColor: AppColors.cardDark,
-        indicatorColor: AppColors.accent.withOpacity(0.25),
+        indicatorColor: AppColors.accent.withValues(alpha: 0.25),
         elevation: 8,
         labelTextStyle: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
@@ -220,7 +220,7 @@ class AppTheme {
       ),
       chipTheme: ChipThemeData(
         backgroundColor: AppColors.cardDark,
-        selectedColor: AppColors.accent.withOpacity(0.25),
+        selectedColor: AppColors.accent.withValues(alpha: 0.25),
         labelStyle: GoogleFonts.inter(
           fontSize: 14,
           color: AppColors.textDark,

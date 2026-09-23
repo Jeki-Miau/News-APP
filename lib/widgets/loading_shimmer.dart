@@ -1,162 +1,95 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/utils/app_colors.dart';
+import 'package:shimmer/shimmer.dart';
 
-class LoadingShimmer extends StatefulWidget {
-  @override
-  _LoadingShimmerState createState() => _LoadingShimmerState();
-}
-
-class _LoadingShimmerState extends State<LoadingShimmer>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
-  late Animation<double> _animation;
-
-  @override
-  void initState() {
-    super.initState();
-    _animationController = AnimationController(
-      duration: Duration(milliseconds: 1500),
-      vsync: this,
-    )..repeat();
-
-    _animation = Tween<double>(begin: -1.0, end: 2.0).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
-    );
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
-  }
+/// Shimmer loading skeleton with featured card and compact card variants.
+class LoadingShimmer extends StatelessWidget {
+  const LoadingShimmer({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: EdgeInsets.all(16),
-      itemCount: 5,
-      itemBuilder: (context, index) {
-        return Card(
-          margin: EdgeInsets.only(bottom: 16),
-          elevation: 2,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Image shimmer
-              AnimatedBuilder(
-                animation: _animation,
-                builder: (context, child) {
-                  return Container(
-                    height: 200,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(12),
-                      ),
-                      gradient: LinearGradient(
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                        colors: [
-                          AppColors.divider,
-                          AppColors.divider.withOpacity(0.5),
-                          AppColors.divider,
-                        ],
-                        stops: [0.0, 0.5, 1.0],
-                        transform: GradientRotation(_animation.value * 3.14159),
-                      ),
-                    ),
-                  );
-                },
-              ),
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final baseColor = isDark ? Colors.grey.shade800 : Colors.grey.shade300;
+    final highlightColor =
+        isDark ? Colors.grey.shade700 : Colors.grey.shade100;
 
-              Padding(
-                padding: EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Source shimmer
-                    AnimatedBuilder(
-                      animation: _animation,
-                      builder: (context, child) {
-                        return Container(
-                          height: 12,
-                          width: 100,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(6),
-                            color: AppColors.divider,
-                          ),
-                        );
-                      },
-                    ),
-                    SizedBox(height: 12),
+    return Shimmer.fromColors(
+      baseColor: baseColor,
+      highlightColor: highlightColor,
+      child: ListView(
+        padding: const EdgeInsets.all(16),
+        physics: const NeverScrollableScrollPhysics(),
+        children: [
+          // Featured card shimmer
+          _buildFeaturedShimmer(),
+          const SizedBox(height: 16),
+          // Compact card shimmers
+          ...List.generate(4, (_) => _buildCompactShimmer()),
+        ],
+      ),
+    );
+  }
 
-                    // Title shimmer
-                    AnimatedBuilder(
-                      animation: _animation,
-                      builder: (context, child) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              height: 16,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: AppColors.divider,
-                              ),
-                            ),
-                            SizedBox(height: 8),
-                            Container(
-                              height: 16,
-                              width: MediaQuery.of(context).size.width * 0.7,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: AppColors.divider,
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                    SizedBox(height: 12),
+  Widget _buildFeaturedShimmer() {
+    return Container(
+      height: 220,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+      ),
+    );
+  }
 
-                    // Description shimmer
-                    AnimatedBuilder(
-                      animation: _animation,
-                      builder: (context, child) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              height: 14,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(7),
-                                color: AppColors.divider,
-                              ),
-                            ),
-                            SizedBox(height: 6),
-                            Container(
-                              height: 14,
-                              width: MediaQuery.of(context).size.width * 0.5,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(7),
-                                color: AppColors.divider,
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                  ],
+  Widget _buildCompactShimmer() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Row(
+        children: [
+          // Text shimmer
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: 12,
+                  width: 80,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(6),
+                  ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 8),
+                Container(
+                  height: 14,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(7),
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Container(
+                  height: 14,
+                  width: 180,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(7),
+                  ),
+                ),
+              ],
+            ),
           ),
-        );
-      },
+          const SizedBox(width: 12),
+          // Thumbnail shimmer
+          Container(
+            width: 80,
+            height: 80,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
